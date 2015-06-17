@@ -15,6 +15,10 @@ else
 }
 
 # install DNX
+# only installs the default (x86, clr) runtime of the framework.
+# If you need additional architectures or runtimes you should add additional calls
+# ex: & $env:USERPROFILE\.dnx\bin\dnvm install $dnxVersion -r coreclr
 & $env:USERPROFILE\.dnx\bin\dnvm install $dnxVersion -Persistent
 
-# run DNU restore on all project.json files in the src folder # run DNU restore on all project.json files in the src folder including 2>1 to redirect stderr to stdout for badly behaved tools
+ # run DNU restore on all project.json files in the src folder including 2>1 to redirect stderr to stdout for badly behaved tools
+Get-ChildItem -Path $PSScriptRoot\src -Filter project.json -Recurse | ForEach-Object { & dnu restore $_.FullName 2>1 }
